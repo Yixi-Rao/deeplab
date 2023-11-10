@@ -247,6 +247,7 @@ def main():
                         help='evaluuation interval (default: 1)')
     parser.add_argument('--no-val', action='store_true', default=False,
                         help='skip validation during training')
+    parser.add_argument('--checkpoints_dir', type=str, default='./run')
 
     args = parser.parse_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -285,9 +286,9 @@ def main():
         }
         args.lr = lrs[args.dataset.lower()] / (4 * len(args.gpu_ids)) * args.batch_size
 
-
     if args.checkname is None:
         args.checkname = 'deeplab-'+str(args.backbone)
+
     print(args)
     torch.manual_seed(args.seed)
     trainer = Trainer(args)
